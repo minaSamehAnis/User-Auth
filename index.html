@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins";
+      }
+      h1 {
+        text-align: center;
+      }
+      body {
+        display: flex;
+
+      }
+    </style>
+  </head>
+  <body>
+    <form method="post" class="register" style="margin: 60px">
+      <h1>register</h1>
+      <label for="">email</label>
+      <br />
+      <input class="mail-inp" type="text" width="800" style="width: 225px" />
+      <br />
+      <label style="margin-top: 50px" for="">password</label>
+      <br />
+      <input
+        class="pass-inp"
+        type="password"
+        width="800"
+        style="width: 225px"
+      />
+      <br />
+      <button style="margin-top: 10px" class="submit" type="submit">
+        submit
+      </button>
+    </form>
+    <form method="post" class="login" style="margin: 60px">
+      <h1>Login</h1>
+      <label for="">email</label>
+      <br />
+      <input class="mail-login-inp" type="text" width="800" style="width: 225px" />
+      <br />
+      <label style="margin-top: 50px" for="">password</label>
+      <br />
+      <input
+        class="pass-login-inp"
+        type="password"
+        width="800"
+        style="width: 225px"
+      />
+      <br />
+      <button style="margin-top: 10px" class="submit" type="submit">
+        submit
+      </button>
+    </form>
+    <script>
+      let submit = document.querySelector(".submit");
+      let email = document.querySelector(".mail-inp");
+      let emailLog = document.querySelector(".mail-login-inp");
+      let pass = document.querySelector(".pass-inp");
+      let passLog = document.querySelector(".pass-login-inp");
+      let form = document.querySelector(".register");
+      let formLog = document.querySelector(".login");
+
+      const apirespone = async (mail, pass) => {
+        try {
+          const response = await fetch("http://localhost:3000/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: mail,
+              password: pass,
+            }),
+          });
+
+          // if (!response.ok) {
+          //   // Return a custom error message if the request fails
+          //   console.error("Error: ", response.statusText);
+          //   return `Error: ${response.status}`;
+          // }
+
+          const data = await response.text();
+          console.log(data);
+          return data; // Return success message
+        } catch (err) {
+          console.error(err);
+          return "An error occurred!";
+        }
+      };
+      const apiresponeLogin = async (mailLog, passLog) => {
+        try {
+          const responseLogin = await fetch("http://localhost:3000/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: mailLog,
+              password: passLog,
+            }),
+          });
+
+          // if (!response.ok) {
+          //   // Return a custom error message if the request fails
+          //   console.error("Error: ", response.statusText);
+          //   return `Error: ${response.status}`;
+          // }
+
+          const data = await response.text();
+          console.log(data);
+          return data; // Return success message
+        } catch (err) {
+          console.error(err);
+          return "An error occurred!";
+        }
+      };
+      
+      // Prevent default form submission and handle it with JS
+      form.addEventListener("submit", (event) => {
+        event.preventDefault(); // Prevent default form submission
+        apirespone(email.value, pass.value)
+          .then((result) => console.log(result)) // Log or handle the result
+          .catch((err) => console.error(err));
+      });
+      formLog.addEventListener("submit", (event) => {
+        event.preventDefault(); // Prevent default form submission
+        apiresponeLogin(emailLog.value, passLog.value)
+          .then((result) => console.log(result)) // Log or handle the result
+          .catch((err) => console.error(err));
+      });
+    </script>
+  </body>
+</html>
